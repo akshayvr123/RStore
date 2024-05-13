@@ -37,10 +37,10 @@ const productSchema = new mongoose.Schema({
       required: true,
       
     },
-    images: [{
+    images: {
       type: String,
       trim: true
-    }],
+    },
     // Add other relevant product fields
   }]
 });

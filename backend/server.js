@@ -2,10 +2,10 @@ const express=require('express');
 const app=express();
 const userRoutes=require('./routers/userRoutes')
 const productRoute=require('./routers/productRoute')
+const cartRoutes=require('./routers/cartRoutes')
 const connectDB=require('./config/db')
 const dotenv=require('dotenv')
 const cors=require('cors')
-
 
 
 dotenv.config()
@@ -19,6 +19,7 @@ app.get('/',(req,res)=>{
 })
 app.use('/api/product',productRoute)
 app.use('/api/user',userRoutes) 
+app.use('/api/cart',cartRoutes) 
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

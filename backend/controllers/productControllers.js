@@ -91,4 +91,41 @@ const getCategory=asyncHandler(async(req,res)=>{
     }
 })
 
-module.exports = { addProduct,getCategoryNames,getCategory };
+const editProduct = asyncHandler(async(req, res) => {
+    const { categoryname, products } = req.body;
+    const {id,name, description, price, stock, image}=products
+    if(!categoryname||!products||!name){
+        console.log("Sent all relevant fields");
+    }
+    try {
+        // Find the category
+        let category = await Product.findOne({ name: categoryname });
+        if (category) {
+            // Find the product within the category
+            let product = category.products.find(prod => prod._id == id);
+            if (product) {
+                // Update the product fields
+                product.name = name;
+                product.description = description;
+                product.price = price;
+                product.stock = stock;
+                product.images = image;
+                await category.save(); // Save the updated category
+                res.send(product).status(200)
+               
+            } else {
+                console.log("No such product exists in this category");
+                res.status(404).json({ success: false, message: "No such product exists in this category" });
+            }
+        } else {
+            console.log("No such category exists");
+            res.status(404).json({ success: false, message: "No such category exists" });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: "Internal server error" });
+    }
+});
+
+
+module.exports = { addProduct,getCategoryNames,getCategory,editProduct };
