@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const Product = require('../Models/productModel');
+const expressAsyncHandler = require('express-async-handler');
 
 const addProduct = asyncHandler(async (req, res) => {
     const { name, description, imageUrl, products } = req.body;
@@ -59,10 +60,10 @@ const addProduct = asyncHandler(async (req, res) => {
     }
 });
 
-const getCategoryNames=asyncHandler(async(req,res)=>{
+const getCategoryNames = asyncHandler(async (req, res) => {
     try {
-        let category=await Product.find()
-        let categoryNames=category.map((cat)=>{
+        let category = await Product.find()
+        let categoryNames = category.map((cat) => {
             return cat.name
         })
         res.status(201).json({
@@ -71,30 +72,30 @@ const getCategoryNames=asyncHandler(async(req,res)=>{
     } catch (error) {
         console.log("an error occured while fectching");
     }
-   
+
 })
 
-const getCategory=asyncHandler(async(req,res)=>{
-    const {categoryname}=req.query
+const getCategory = asyncHandler(async (req, res) => {
+    const { categoryname } = req.query
     console.log(categoryname);
-    if(!categoryname){
+    if (!categoryname) {
         console.log("please send a category name");
     }
     try {
-        let category=await Product.findOne({name:categoryname})
+        let category = await Product.findOne({ name: categoryname })
         res.status(200).json({
             category
         })
-        
+
     } catch (error) {
         console.log("No category exist");
     }
 })
 
-const editProduct = asyncHandler(async(req, res) => {
+const editProduct = asyncHandler(async (req, res) => {
     const { categoryname, products } = req.body;
-    const {id,name, description, price, stock, image}=products
-    if(!categoryname||!products||!name){
+    const { id, name, description, price, stock, image } = products
+    if (!categoryname || !products || !name) {
         console.log("Sent all relevant fields");
     }
     try {
@@ -112,7 +113,7 @@ const editProduct = asyncHandler(async(req, res) => {
                 product.images = image;
                 await category.save(); // Save the updated category
                 res.send(product).status(200)
-               
+
             } else {
                 console.log("No such product exists in this category");
                 res.status(404).json({ success: false, message: "No such product exists in this category" });
@@ -127,5 +128,58 @@ const editProduct = asyncHandler(async(req, res) => {
     }
 });
 
+// const deleteProduct = expressAsyncHandler(async (req, res) => {
+    
+//     const { categoryId, ProductId } = req.body
+//     let categoryExist = await Product.findOne({ _id:categoryId })
+    
+//     if (categoryExist) {
+       
+//         let productExists = categoryExist.products.findIndex((prd) =>{
+//             console.log(prd._id);
+//             return prd._id == ProductId
+//         }  
+        
+            
+//         )
+//         console.log(productExists);
+//         if (productExists>=0) {
+           
+//             categoryExist.products.splice(productExists,1)
+            
+//             await categoryExist.save()
+//             res.send(categoryExist)
+//         } else {
+            
+//             res.status(404).json({ success: false, message: "there is no such product exist in this category" });
+//         }
+//     } else {
+//         res.status(404).json({ success: false, message: "there is no such category exist in this category" });
+//     }
+// })
 
-module.exports = { addProduct,getCategoryNames,getCategory,editProduct };
+
+const deleteProduct = expressAsyncHandler(async (req, res) => {
+    try {
+      const { categoryId, productId } = req.body;
+  
+      const updatedCategory = await Product.updateOne(
+        { _id: categoryId },
+        { $pull: { products: { _id: productId } } },
+        { new: true }
+      );
+  
+      if (updatedCategory.modifiedCount === 0) {
+        return res.status(404).json({ success: false, message: "Product not found in category" });
+      }
+  
+      res.send({ success: true, message: "Product deleted", updatedCategory });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ success: false, message: "Internal server error" });
+    }
+  });
+  
+
+
+module.exports = { addProduct, getCategoryNames, getCategory, editProduct, deleteProduct };
