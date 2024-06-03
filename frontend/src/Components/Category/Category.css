@@ -1,0 +1,54 @@
+/* styles.css */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap');
+
+.category {
+  
+  font-family: 'Manrope', sans-serif;
+}
+
+.vl{
+  border-left: 6px solid red;
+  height: 25px;
+}
+
+    /* categoryCard----------------- */
+    /* .catagory-container{
+      @apply w-screen h-[100vh] md:mt-8 lg:mt-4
+       xl:mt-12 2xl:mt-8 
+       box-border flex gap-[1rem]  flex-wrap 
+      ;
+      
+  } */
+  .item-container{
+      @apply flex  flex-wrap justify-center items-center md:ml-[6rem] md:justify-start;
+  }
+  .item{
+    @apply w-[428px]  ml-5 mt-5 border-2 rounded-lg overflow-hidden border-black hover:shadow-red-600 cursor-pointer
+    hover:border-green-600
+     lg:w-[428px] sm:w-[390px] sm:h-[300px];
+}
+  /* .item:hover{
+   box-shadow: .2rem .2rem  rgba(0, 129, 4, 0.405);
+   transition: all 200ms ease-in
+  } */
+
+
+  .small-txt::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #DD2027; /* Equivalent to bg-red-700 */
+    width: .4rem;
+    height: 2rem;
+    z-index: -1;
+    transition: all 300ms ease;
+    
+}
+.item:hover .small-txt::before {
+    @apply w-[9.9rem] rounded-r-sm;
+    
+}
+.item:hover .small-txt{
+    @apply text-white;  
+}

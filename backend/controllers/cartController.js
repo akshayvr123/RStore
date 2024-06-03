@@ -67,5 +67,18 @@ const removeFromCart = asyncHandler(async (req, res) => {
     }
 });
 
+const getCartItems=asyncHandler(async(req,res)=>{
+    try {
+        console.log(req.user);
+        const userId = req.user._id; 
+        const cartItems = await Cart.findOne({ userId: userId });
+        res.send(cartItems.products)
+        
+    } catch (error) {
+        console.log(error);
+        res.send("Error occured")
+    }
+})
 
-module.exports = { addToCart,removeFromCart }
+
+module.exports = { addToCart,removeFromCart ,getCartItems}

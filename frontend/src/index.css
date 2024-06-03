@@ -1,0 +1,32 @@
+*{
+    @apply box-border m-0 p-0;
+
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base{
+    .sub-titles{
+        @apply text-3xl font-bold pl-[4rem] ;
+    }
+    .normal-txt{
+        @apply font-manrope text-[20px];
+    }
+    .small-txt{
+        @apply font-manrope text-[23px] font-bold relative
+        pl-[.5rem] m-[2px] z-20 cursor-pointer;
+        transition: all 300ms ease;
+    }
+
+}
+
+@layer components{
+    /* corousal--------------------- */
+    .corousal-container{
+        @apply w-screen h-[70vh];
+    }
+    
+
+}

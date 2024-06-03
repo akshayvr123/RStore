@@ -14,7 +14,7 @@ const productSchema = new mongoose.Schema({
   imageUrl: {
     type: String,
     trim: true,
-    default:"https://www.shutterstock.com/image-photo/cucumber-slices-isolated-over-white-600nw-26951737.jpg "
+    
   },
   // Embed products within the category
   products: [{

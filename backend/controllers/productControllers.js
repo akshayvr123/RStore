@@ -6,7 +6,7 @@ const addProduct = asyncHandler(async (req, res) => {
     const { name, description, imageUrl, products } = req.body;
     const { name: name1, description: description1, price: price1, stock: stock1, image: image1 } = products;
 
-    if (!name || !description || !products) {
+    if (!name  || !products) {
         res.status(400);
         throw new Error("Send all relevant fields");
     }
@@ -32,7 +32,7 @@ const addProduct = asyncHandler(async (req, res) => {
                 description: description1,
                 price: price1,
                 stock: stock1,
-                image: image1
+                images: image1
             });
             await categoryExist.save(); // Save changes to the category
             res.status(201).json({
@@ -50,7 +50,7 @@ const addProduct = asyncHandler(async (req, res) => {
                 description: description1,
                 price: price1,
                 stock: stock1,
-                image: image1
+                images: image1
             }]
         });
         await newCategory.save();
@@ -64,10 +64,11 @@ const getCategoryNames = asyncHandler(async (req, res) => {
     try {
         let category = await Product.find()
         let categoryNames = category.map((cat) => {
-            return cat.name
+            return {name:cat.name,id:cat._id,description:cat.description,imageUrl:cat.imageUrl}
         })
+       
         res.status(201).json({
-            categoryNames
+          categoryNames
         })
     } catch (error) {
         console.log("an error occured while fectching");
