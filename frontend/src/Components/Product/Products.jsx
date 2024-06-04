@@ -4,13 +4,29 @@ import { useParams } from 'react-router-dom'
 import Navbar from '../Navbar/Navbar'
 import SearchForm from '../Navbar/Search'
 import useCartItems from '../../CustomHooks/useCart'
+import { useSelector, useDispatch } from 'react-redux'
+import { addtocart,removefromcart } from '../../Slices/cartSlice'
+import useRemoveItem from '../../CustomHooks/useRemoveCart'
 
 const Products = () => {
+  const carts = useSelector((state) => state?.cart)
+  const dispatch = useDispatch()
   const [products, setProducts] = useState([])
   const { name } = useParams()
   let user = JSON.parse(localStorage.getItem('user'))
-  const [cart, setCart] = useCartItems("http://localhost:5000/api/cart", user.token)
+  const [cart] = useCartItems("http://localhost:5000/api/cart", user.token)
+  const [newcart,remove]=useRemoveItem("http://localhost:5000/api/cart/remove",user.token)
 
+
+  useEffect(()=>{
+  console.log(cart);
+  dispatch(addtocart(cart))
+  },[cart]) 
+
+  useEffect(()=>{
+ console.log(newcart);
+ dispatch(removefromcart(newcart))
+  },[newcart])
   const fetchProducts = async () => {
     try {
       const { data } = await axios.get("http://localhost:5000/api/product", {
@@ -44,36 +60,40 @@ const Products = () => {
           quantity: prd.stock
         }
       }, config)
-      console.table(data)
-      setCart(data.products)
+     
+      dispatch(addtocart(data.products))
     } catch (error) {
       alert(error)
     }
   }
 
-  const handleRemoveClick = async (prd) => {
-    try {
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-        data: {
-          name: prd.name,
-        }
-      };
-      console.log(config);
-      const { data } = await axios.delete('http://localhost:5000/api/cart/remove', config);
-      setCart(data.products);
-    } catch (error) {
-      alert(error);
-    }
-  };
+  // const handleRemoveClick = async (prd) => {
+  //   try {
+  //     const config = {
+  //       headers: {
+  //         "Content-type": "application/json",
+  //         Authorization: `Bearer ${user.token}`,
+  //       },
+  //       data: {
+  //         name: prd.name,
+  //       }
+  //     };
+      
+  //     const { data } = await axios.delete('http://localhost:5000/api/cart/remove', config);
+      
+  //     dispatch(removefromcart(data.products))
+  //   } catch (error) {
+  //     alert(error);
+  //   }
+  // };
+  const handleRemoveClick=(prd)=>{
+    remove(prd)
+  }
   
 
-  useEffect(() => {
-    console.log(cart)
-  }, [cart])
+  // useEffect(() => {
+  //   console.log(carts)
+  // }, [carts])
 
   return (
     <div>
@@ -82,7 +102,7 @@ const Products = () => {
       <h1 className='scrollbar-hide text-3xl pl-[3rem] md:pl-[6rem] font-bold mt-8'>{name}</h1>
       <div className='flex flex-wrap justify-center sm:justify-start sm:ml-[6rem]'>
         {products.map((product) => {
-          const isInCart = cart?.length > 0 && cart.some(crt => crt.name === product.name) 
+          const isInCart = carts?.length > 0 && carts.some(crt => crt.name === product.name) 
           return (
             <div key={product.id} className='product-container w-[268px] h-[423px] border-2 rounded-lg border-gray-400 m-4'>
               <div className='relative'>
