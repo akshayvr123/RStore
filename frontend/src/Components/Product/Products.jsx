@@ -57,7 +57,8 @@ const Products = () => {
           category: name,
           name: prd.name,
           price: prd.price,
-          quantity: prd.stock
+          quantity: prd.stock,
+          image:prd.images
         }
       }, config)
      
@@ -67,34 +68,10 @@ const Products = () => {
     }
   }
 
-  // const handleRemoveClick = async (prd) => {
-  //   try {
-  //     const config = {
-  //       headers: {
-  //         "Content-type": "application/json",
-  //         Authorization: `Bearer ${user.token}`,
-  //       },
-  //       data: {
-  //         name: prd.name,
-  //       }
-  //     };
-      
-  //     const { data } = await axios.delete('http://localhost:5000/api/cart/remove', config);
-      
-  //     dispatch(removefromcart(data.products))
-  //   } catch (error) {
-  //     alert(error);
-  //   }
-  // };
   const handleRemoveClick=(prd)=>{
     remove(prd)
   }
   
-
-  // useEffect(() => {
-  //   console.log(carts)
-  // }, [carts])
-
   return (
     <div>
       <Navbar />

@@ -9,7 +9,7 @@ router.route('/').post(addProduct)
 router.route('/categorynames').get(getCategoryNames)
 router.route('/').get(getCategory)
 router.route('/edit').put(protect,editProduct)
-router.route('/delete').delete(deleteProduct)
+router.route('/delete').delete(protect,deleteProduct)
 //Delete product
 
 

@@ -98,6 +98,7 @@ const editProduct = asyncHandler(async (req, res) => {
     const { id, name, description, price, stock, image } = products
     if (!categoryname || !products || !name) {
         console.log("Sent all relevant fields");
+        
     }
     try {
         // Find the category
@@ -162,8 +163,10 @@ const editProduct = asyncHandler(async (req, res) => {
 
 const deleteProduct = expressAsyncHandler(async (req, res) => {
     try {
+        console.log(req.body);
       const { categoryId, productId } = req.body;
-  
+    console.log(categoryId);
+    console.log(productId);
       const updatedCategory = await Product.updateOne(
         { _id: categoryId },
         { $pull: { products: { _id: productId } } },
@@ -173,8 +176,9 @@ const deleteProduct = expressAsyncHandler(async (req, res) => {
       if (updatedCategory.modifiedCount === 0) {
         return res.status(404).json({ success: false, message: "Product not found in category" });
       }
+      const category=await Product.findById(categoryId)
   
-      res.send({ success: true, message: "Product deleted", updatedCategory });
+      res.send({ success: true, message: "Product deleted", category });
     } catch (error) {
       console.error(error);
       res.status(500).json({ success: false, message: "Internal server error" });
