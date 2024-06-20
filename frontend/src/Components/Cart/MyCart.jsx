@@ -4,12 +4,14 @@ import { addtocart, removefromcart } from '../../Slices/cartSlice';
 import useCartItems from '../../CustomHooks/useCart';
 import useRemoveItem from '../../CustomHooks/useRemoveCart';
 import axios from 'axios';
+import useOrder from '../../CustomHooks/useOrder';
 
 const MyCart = () => {
     let user = JSON.parse(localStorage.getItem('user'))
     const [cart] = useCartItems("http://localhost:5000/api/cart", user.token)
     const [total,setTotal]=useState(0)
-    const dispatch = useDispatch()
+    const {handlePayment}=useOrder(cart,total)
+    const dispatch = useDispatch(cart)
     const [newcart,remove]=useRemoveItem("http://localhost:5000/api/cart/remove",user.token)
     const carts = useSelector((state) => state?.cart)
     const findTotal = (carts) => {
@@ -145,7 +147,7 @@ const MyCart = () => {
                             <p className="text-sm text-gray-700">including GST</p>
                         </div>
                     </div>
-                    <button className="mt-6 w-full rounded-md bg-green-500 py-1.5 font-medium text-blue-50 hover:bg-green-700">
+                    <button onClick={handlePayment} className="mt-6 w-full rounded-md bg-green-500 py-1.5 font-medium text-blue-50 hover:bg-green-700">
                         Check out
                     </button>
                 </div>

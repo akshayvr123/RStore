@@ -16,6 +16,7 @@ import EditProduct from './Pages/EditProduct';
 import AdminElement from './RouteContollers/AdminElement';
 import Admin from './Pages/Admin';
 import UserProvider from './Contexts/UserContext';
+import MyOrder from './Pages/MyOrder';
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
         <Route path='/admin' element={<AdminElement><Admin/></AdminElement>}/>
         <Route path="/addproduct" element={<AdminElement><AddProduct/></AdminElement>} />
         <Route path="/editproduct" element={<AdminElement><EditProduct/></AdminElement>} />
+        <Route path="/myorder" element={<Protected><MyOrder/></Protected>} />
       </Routes>
     </UserProvider>
     </BrowserRouter>
