@@ -1,8 +1,8 @@
 const asyncHandler = require('express-async-handler')
 const Razorpay = require('razorpay');
-const crypto=require('crypto')
-const Order=require('../Models/orderModel')
-const Cart=require('../Models/cartModel')
+const crypto = require('crypto')
+const Order = require('../Models/orderModel')
+const Cart = require('../Models/cartModel')
 
 const razorpay = new Razorpay({
     key_id: 'rzp_test_yEeTvW2DPaMXl2',
@@ -10,40 +10,40 @@ const razorpay = new Razorpay({
 });
 
 
-const createOrder=asyncHandler( async (req, res) => {
+const createOrder = asyncHandler(async (req, res) => {
     console.log("create order");
     const { amount, currency, receipt, notes } = req.body;
     try {
         const order = await razorpay.orders.create({ amount, currency, receipt, notes });
         res.json(order);
     } catch (error) {
-        console.log("error at create order"+error);
+        console.log("error at create order" + error);
         res.status(500).send(error);
     }
 })
 
-const verifyPayment=asyncHandler( async(req, res) => {
+const verifyPayment = asyncHandler(async (req, res) => {
     const id = req.user._id
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature,cart } = req.body;
-  
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, cart } = req.body;
+
     const secret = 'CyupINEm9J4Hw6ICUQ2aOi7F';
     const shasum = crypto.createHmac('sha256', secret);
     shasum.update(razorpay_order_id + '|' + razorpay_payment_id);
     const digest = shasum.digest('hex');
 
     if (digest === razorpay_signature) {
-        const userExist=await Order.findOne({userId:id})
-        console.log("userExist is"+userExist);
-        if(!userExist){
-            const data=await Order.create({
-                userId:id,
-                products:cart
+        const userExist = await Order.findOne({ userId: id })
+        console.log("userExist is" + userExist);
+        if (!userExist) {
+            const data = await Order.create({
+                userId: id,
+                products: cart
             })
-        }else{
-           console.log("else block executed");
-           const data=await Order.findOneAndUpdate({userId:id},{$push:{products:[...cart]}})
+        } else {
+            console.log("else block executed");
+            const data = await Order.findOneAndUpdate({ userId: id }, { $push: { products: [...cart] } })
         }
-        const data=await Cart.findOneAndDelete({userId:id})
+        const data = await Cart.findOneAndDelete({ userId: id })
         res.json({ status: 'success' });
     } else {
         console.log('failed');
@@ -51,6 +51,21 @@ const verifyPayment=asyncHandler( async(req, res) => {
     }
 })
 
+const getOrders = asyncHandler(async (req, res) => {
+    const id = req.user._id
+    try {
+        const data = await Order.findOne({ userId: id })
+        if(data){
+            res.send(data)
+        }else{
+            console.log("No orders exist");
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    
+    
+})
 
 
-module.exports={createOrder,verifyPayment}
+module.exports = { createOrder, verifyPayment, getOrders }

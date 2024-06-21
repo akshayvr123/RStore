@@ -1,9 +1,10 @@
 import React from 'react'
+import OrderDetails from '../Components/MyOrders/Orders'
 
 const MyOrder = () => {
   return (
     <>
-     <h2>Order page</h2> 
+    <OrderDetails/>
     </>
   )
 }

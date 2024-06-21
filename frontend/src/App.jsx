@@ -17,6 +17,7 @@ import AdminElement from './RouteContollers/AdminElement';
 import Admin from './Pages/Admin';
 import UserProvider from './Contexts/UserContext';
 import MyOrder from './Pages/MyOrder';
+import AllOrder from './Pages/AllOrder';
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
         <Route path="/addproduct" element={<AdminElement><AddProduct/></AdminElement>} />
         <Route path="/editproduct" element={<AdminElement><EditProduct/></AdminElement>} />
         <Route path="/myorder" element={<Protected><MyOrder/></Protected>} />
+        <Route path="/myorder" element={<AdminElement><AllOrder/></AdminElement>} />
       </Routes>
     </UserProvider>
     </BrowserRouter>
