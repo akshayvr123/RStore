@@ -1,10 +1,10 @@
 import React from 'react'
-import OrderDetails from '../Components/MyOrders/Orders'
+import AllOrdersOfUser from '../Components/AllOrdersOfUser/AllOrdersOfUser'
 
 const MyOrder = () => {
   return (
     <>
-    <OrderDetails/>
+    <AllOrdersOfUser/>
     </>
   )
 }

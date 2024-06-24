@@ -15,7 +15,7 @@ const AdminPanel = () => {
          <div onClick={()=>navigate('/addproduct')} className='edit_product w-52 h-24 bg-green-500 border-2 ml-5 mt-10 rounded-xl hover:bg-red-500 hover:text-white hover:transition duration-500 scrollbar-hide'>
             <h1 className='text-center text-3xl font-bold mt-4 scrollbar-hide'>Add product</h1>
          </div>
-         <div onClick={()=>navigate('/addproduct')} className='edit_product w-52 h-24 bg-green-500 border-2 ml-5 mt-10 rounded-xl hover:bg-red-500 hover:text-white hover:transition duration-500 scrollbar-hide'>
+         <div onClick={()=>navigate('/allorders')} className='edit_product w-52 h-24 bg-green-500 border-2 ml-5 mt-10 rounded-xl hover:bg-red-500 hover:text-white hover:transition duration-500 scrollbar-hide'>
             <h1 className='text-center text-3xl font-bold mt-4 scrollbar-hide'>View Orders</h1>
          </div>
          </div>

@@ -1,15 +1,27 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import useCurrentDate from './useCurrentDate';
 
-const useOrder = (cart,total) => {
-   
+const useOrder = (cart,personalDetails,shippingAdress,total) => {
+   const navigate=useNavigate()
     let user = JSON.parse(localStorage.getItem('user'))
+    const {currentDate}=useCurrentDate()
     const handlePayment = async () => {
+        console.log(shippingAdress.adressline+","+shippingAdress.state+","+shippingAdress.city+","+shippingAdress.pin);
+        if(!personalDetails.firstName||!personalDetails.lastName||!personalDetails.email||!personalDetails.phone){
+            alert("Please fill all the personal details")
+            return
+        }
+        if(!shippingAdress.adressline||!shippingAdress.state||!shippingAdress.city||!shippingAdress.pin){
+            alert("Please fill the shipping details")
+            return
+        }
         try {
             // Step 1: Create an order on your backend
             const orderUrl = 'http://localhost:5000/api/order/create-order';
             const response = await axios.post(orderUrl, {
-                amount: (total+49 )*100, // Amount in smallest currency unit (e.g., paise for INR)
+                amount: total*100, // Amount in smallest currency unit (e.g., paise for INR)
                 currency: 'INR',
                 receipt: 'receipt#1',
                 notes: {
@@ -41,26 +53,33 @@ const useOrder = (cart,total) => {
                             Authorization: `Bearer ${user.token}`,
                         },
                     };
+                    console.log(personalDetails);
+                    console.log(shippingAdress);
                     const { data } = await axios.post(verifyUrl, {
                         razorpay_order_id: orderId,
                         razorpay_payment_id: paymentId,
                         razorpay_signature: signature,
-                        cart:cart
+                        cart:cart,
+                        name:personalDetails.firstName+" "+personalDetails.lastName,
+                        phone:personalDetails.phone,
+                        adress: shippingAdress.adressline+","+shippingAdress.state+","+shippingAdress.city+","+shippingAdress.pin,
+                        date:currentDate
                     },config);
 
                     if (data.status === 'success') {
                         alert('Payment successful');
+                        navigate('/myorder')
                     } else {
                         alert('Payment verification failed');
                     }
                 },
                 prefill: {
-                    name: user.name,
-                    email: user.email,
-                    contact: '9999999999'
+                    name: personalDetails.firstName+" "+personalDetails.lastName,
+                    email: personalDetails.email,
+                    contact: personalDetails.phone
                 },
                 notes: {
-                    address: 'Customer Address'
+                    address: shippingAdress.adressline+","+shippingAdress.state+","+shippingAdress.city+","+shippingAdress.pin
                 },
                 theme: {
                     color: '#3399cc'

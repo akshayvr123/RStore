@@ -5,6 +5,7 @@ import useCartItems from '../../CustomHooks/useCart';
 import useRemoveItem from '../../CustomHooks/useRemoveCart';
 import axios from 'axios';
 import useOrder from '../../CustomHooks/useOrder';
+import { useNavigate } from 'react-router-dom';
 
 const MyCart = () => {
     let user = JSON.parse(localStorage.getItem('user'))
@@ -14,6 +15,7 @@ const MyCart = () => {
     const dispatch = useDispatch(cart)
     const [newcart,remove]=useRemoveItem("http://localhost:5000/api/cart/remove",user.token)
     const carts = useSelector((state) => state?.cart)
+    const navigate=useNavigate()
     const findTotal = (carts) => {
         // Check if cart is valid
         if (!carts || !Array.isArray(cart)) {
@@ -147,10 +149,11 @@ const MyCart = () => {
                             <p className="text-sm text-gray-700">including GST</p>
                         </div>
                     </div>
-                    <button onClick={handlePayment} className="mt-6 w-full rounded-md bg-green-500 py-1.5 font-medium text-blue-50 hover:bg-green-700">
+                    <button onClick={()=>navigate('/checkout')} className="mt-6 w-full rounded-md bg-green-500 py-1.5 font-medium text-blue-50 hover:bg-green-700">
                         Check out
                     </button>
                 </div>
+                
             </div>
         </div>
     );

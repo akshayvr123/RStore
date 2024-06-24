@@ -15,7 +15,6 @@ const Home = () => {
       <Popular/>
       <CategoryCard/>
       <Corousal/>
-     
     </div>
   )
 }
