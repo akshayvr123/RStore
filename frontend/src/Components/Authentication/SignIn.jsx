@@ -26,7 +26,7 @@ const SignIn = () => {
             console.log(data);
             localStorage.setItem('user', JSON.stringify(data));
             if(data.type==='admin'){
-                navigate('/addproduct')
+                navigate('/admin')
             }else{
 
                 navigate('/')
