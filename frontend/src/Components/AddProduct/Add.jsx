@@ -3,8 +3,10 @@ import useCategoryNames from '../../CustomHooks/useCategoryNames';
 import postImage from '../../CustomHooks/postImage';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import {productAddsuccess} from '../ToastStatus/ToastStatus'
 
 const Add = () => {
+  let user = JSON.parse(localStorage.getItem('user'))
   const navigate=useNavigate()
   const [option, setOption] = useState()
   const [categoryNames] = useCategoryNames('http://localhost:5000/api/product/categorynames');
@@ -27,11 +29,6 @@ const Add = () => {
 
   })
 
-
-
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
-  };
   useEffect(() => {
 
    setProductDetails({...productDetails,images:images})
@@ -42,12 +39,6 @@ const Add = () => {
     setCategoryDetails({...categoryDetails,images:image})
     
    }, [image])
-   useEffect(() => {
-
-   console.log(productDetails);
-    
-   }, [productDetails])
-
 
    const handleOptionChange=(e)=>{
     setOption(e.target.value)
@@ -72,6 +63,14 @@ const Add = () => {
 
     try {
       console.log('data uploading');
+
+      const config = {
+        headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+        }
+    };
+
       const {data}=await axios.post('http://localhost:5000/api/product',{
        
           name:categoryDetails.name,
@@ -85,10 +84,10 @@ const Add = () => {
               image:productDetails.images
           
       }
-      })
-      console.log('data uploaded');
-      console.log(data);
+      },config)
+      
       if(data){
+        productAddsuccess()
         navigate('/')
       }
     } catch (error) {

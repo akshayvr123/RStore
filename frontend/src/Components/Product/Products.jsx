@@ -7,6 +7,7 @@ import useCartItems from '../../CustomHooks/useCart'
 import { useSelector, useDispatch } from 'react-redux'
 import { addtocart,removefromcart } from '../../Slices/cartSlice'
 import useRemoveItem from '../../CustomHooks/useRemoveCart'
+import {success,error} from '../ToastStatus/ToastStatus'
 
 const Products = () => {
   const carts = useSelector((state) => state?.cart)
@@ -14,29 +15,31 @@ const Products = () => {
   const [products, setProducts] = useState([])
   const { name } = useParams()
   let user = JSON.parse(localStorage.getItem('user'))
-  const [cart] = useCartItems("http://localhost:5000/api/cart", user.token)
-  const [newcart,remove]=useRemoveItem("http://localhost:5000/api/cart/remove",user.token)
+  const BASE_URL=import.meta.env.VITE_BACKEND_BASE_URL
+  const [cart] = useCartItems(`${BASE_URL}/api/cart`, user.token)
+  const [newcart,remove]=useRemoveItem(`${BASE_URL}/api/cart/remove`,user.token)
 
 
   useEffect(()=>{
-  console.log(cart);
+  console.log("Base url is "+BASE_URL);
+  
   dispatch(addtocart(cart))
   },[cart]) 
 
   useEffect(()=>{
- console.log(newcart);
+
  dispatch(removefromcart(newcart))
   },[newcart])
   const fetchProducts = async () => {
     try {
-      const { data } = await axios.get("http://localhost:5000/api/product", {
+      const { data } = await axios.get(`${BASE_URL}/api/product`, {
         params: {
           categoryname: name
         }
       })
       setProducts(data.category.products)
     } catch (error) {
-      alert(error)
+      console.log(error);
     }
   }
 
@@ -52,7 +55,7 @@ const Products = () => {
           Authorization: `Bearer ${user.token}`,
         },
       }
-      const { data } = await axios.post('http://localhost:5000/api/cart/add', {
+      const { data } = await axios.post(`${BASE_URL}/api/cart/add`, {
         products: {
           category: name,
           name: prd.name,
@@ -61,7 +64,7 @@ const Products = () => {
           image:prd.images
         }
       }, config)
-     
+      success("Added To Cart Successfully")
       dispatch(addtocart(data.products))
     } catch (error) {
       alert(error)
@@ -70,6 +73,7 @@ const Products = () => {
 
   const handleRemoveClick=(prd)=>{
     remove(prd)
+    error("Removed From Cart")
   }
   
   return (
@@ -78,7 +82,7 @@ const Products = () => {
       <SearchForm />
       <h1 className='scrollbar-hide text-3xl pl-[3rem] md:pl-[6rem] font-bold mt-8'>{name}</h1>
       <div className='flex flex-wrap justify-center sm:justify-start sm:ml-[6rem]'>
-        {products.map((product) => {
+        {products?.map((product) => {
           const isInCart = carts?.length > 0 && carts.some(crt => crt.name === product.name) 
           return (
             <div key={product.id} className='product-container w-[268px] h-[423px] border-2 rounded-lg border-gray-400 m-4'>

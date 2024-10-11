@@ -7,7 +7,7 @@ import axios from 'axios';
 const EditOrder = () => {
     const { order, setOrder } = useContext(OrderContext)
     let user = JSON.parse(localStorage.getItem('user'))
-
+    const BASE_URL=import.meta.env.VITE_BACKEND_BASE_URL
 
 
     const handleDelivered = async (item) => {
@@ -20,7 +20,7 @@ const EditOrder = () => {
     
         try {
             const { data } = await axios.put(
-                "http://localhost:5000/api/order/edit",
+                `${BASE_URL}/api/order/edit`,
                 { id: order._id, name: item.name },
                 config
             );

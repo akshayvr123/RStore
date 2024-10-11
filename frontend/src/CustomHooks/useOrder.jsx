@@ -6,6 +6,7 @@ import useCurrentDate from './useCurrentDate';
 const useOrder = (cart,personalDetails,shippingAdress,total) => {
    const navigate=useNavigate()
     let user = JSON.parse(localStorage.getItem('user'))
+    const BASE_URL=import.meta.env.VITE_BACKEND_BASE_URL
     const {currentDate}=useCurrentDate()
     const handlePayment = async () => {
         console.log(shippingAdress.adressline+","+shippingAdress.state+","+shippingAdress.city+","+shippingAdress.pin);
@@ -19,7 +20,7 @@ const useOrder = (cart,personalDetails,shippingAdress,total) => {
         }
         try {
             // Step 1: Create an order on your backend
-            const orderUrl = 'http://localhost:5000/api/order/create-order';
+            const orderUrl = `${BASE_URL}/api/order/create-order`;
             const response = await axios.post(orderUrl, {
                 amount: total*100, // Amount in smallest currency unit (e.g., paise for INR)
                 currency: 'INR',
@@ -46,7 +47,7 @@ const useOrder = (cart,personalDetails,shippingAdress,total) => {
                     const orderId = response.razorpay_order_id;
                     const signature = response.razorpay_signature;
 
-                    const verifyUrl = 'http://localhost:5000/api/order/verify-payment';
+                    const verifyUrl = `${BASE_URL}/api/order/verify-payment`;
                     const config = {
                         headers: {
                             "Content-type": "application/json",

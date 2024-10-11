@@ -6,6 +6,7 @@ const Edit = ({ product,categoryId ,categoryName}) => {
     let user = JSON.parse(localStorage.getItem('user'))
     const [products,setProducts]=useState([])
     const [formData,setFormdata]=useState()
+    const BASE_URL=import.meta.env.VITE_BACKEND_BASE_URL
     useEffect(()=>{
         setProducts(product)
     },[product])
@@ -26,7 +27,7 @@ const Edit = ({ product,categoryId ,categoryName}) => {
                 }
                 
               }
-            const {data}=await axios.delete(`http://localhost:5000/api/product/delete`,config)
+            const {data}=await axios.delete(`${BASE_URL}/api/product/delete`,config)
             setProducts(data.category.products);
         } catch (error) {
             console.log(error);

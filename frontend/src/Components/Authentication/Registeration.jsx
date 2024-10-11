@@ -2,11 +2,13 @@ import axios from 'axios';
 import React, { useContext, useState } from 'react';
 import { UserContext } from '../../Contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
-import { Bounce, ToastContainer, toast } from 'react-toastify';
+import { Bounce, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { success } from '../ToastStatus/ToastStatus'; 
 
 
 const Registeration = () => {
+    
     const [admin, setAdmin] = useState(false);
     const [secret, setSecret] = useState('')
     const [name, setName] = useState('')
@@ -16,18 +18,6 @@ const Registeration = () => {
     const light = "ml-[-9px] text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700";
     const { setUser } = useContext(UserContext)
     const navigate = useNavigate()
-
-    const success = () => toast.success('Register Successfull!', {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-    });
 
     const handleSubmit = async (e) => {
         e.preventDefault()

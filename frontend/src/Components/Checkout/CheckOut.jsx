@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 const CheckOut = () => {
     let user = JSON.parse(localStorage.getItem('user'))
+    const BASE_URL=import.meta.env.VITE_BACKEND_BASE_URL
     const navigate=useNavigate()
     const [personalDetails,setPersonalDetails]=useState({
         firstName:'',
@@ -19,7 +20,7 @@ const CheckOut = () => {
         state:'',
         pin:1
     })
-    const [cart] = useCartItems("http://localhost:5000/api/cart", user.token)
+    const [cart] = useCartItems(`${BASE_URL}/api/cart`, user.token)
 
     const [total,setTotal]=useState()
     const {handlePayment}=useOrder(cart,personalDetails,shippingAdress,total)

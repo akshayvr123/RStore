@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useContext, useState } from 'react';
 import { UserContext } from '../../Contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
+import { loginsuccess} from '../ToastStatus/ToastStatus'; 
 
 
 const SignIn = () => {
@@ -13,6 +14,7 @@ const SignIn = () => {
     const light = "ml-[-9px] text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700";
     const {setUser}=useContext(UserContext)
     const navigate=useNavigate()
+
     const handleSubmit=async(e)=>{
         e.preventDefault()
         try {
@@ -25,6 +27,7 @@ const SignIn = () => {
             setUser(data)
             console.log(data);
             localStorage.setItem('user', JSON.stringify(data));
+            loginsuccess()
             if(data.type==='admin'){
                 navigate('/admin')
             }else{

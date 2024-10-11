@@ -8,7 +8,8 @@ const SelectCategory = () => {
     const [categoryName,setCategorName]=useState()
     const [categoryId,setCategorId]=useState()
     const [products,setProducts]=useState([])
-    const [categoryNames] = useCategoryNames('http://localhost:5000/api/product/categorynames');
+    const BASE_URL=import.meta.env.VITE_BACKEND_BASE_URL
+    const [categoryNames] = useCategoryNames(`${BASE_URL}/api/product/categorynames`);
    
     useEffect(()=>{
         setCategoryDetails(categoryNames?.categoryNames);
@@ -22,7 +23,7 @@ const SelectCategory = () => {
     const fetchProducts = async () => {
         if(!categoryName) return
         try {
-          const { data } = await axios.get("http://localhost:5000/api/product", {
+          const { data } = await axios.get(`${BASE_URL}/api/product`, {
             params: {
               categoryname: categoryName
             }

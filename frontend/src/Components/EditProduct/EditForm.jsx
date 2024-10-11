@@ -6,6 +6,7 @@ const EditForm = ({formData,categoryName}) => {
    
     const [productpic,setProductPic]=useState()
     let user = JSON.parse(localStorage.getItem('user'))
+    const BASE_URL=import.meta.env.VITE_BACKEND_BASE_URL
     const [productDetails, setProductDetails] = useState({
         id:formData._id,
         name: formData.name,
@@ -43,7 +44,7 @@ console.log(productDetails);
                 },
                 
               }
-            const {data}=await axios.put("http://localhost:5000/api/product/edit",{
+            const {data}=await axios.put(`${BASE_URL}/api/product/edit`,{
                 
                     categoryname:categoryName,
                     products:{
