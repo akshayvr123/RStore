@@ -72,6 +72,9 @@ const getCategoryNames = asyncHandler(async (req, res) => {
         })
     } catch (error) {
         console.log("an error occured while fectching");
+         return res.status(500).json({
+            error
+          })
     }
 
 })

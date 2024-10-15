@@ -6,7 +6,7 @@ import { OrderIdContext } from '../../Contexts/OrderIdContext'
 
 const Allorders = () => {
     const [allOrders, setAllOrders] = useState()
-   
+    const BASE_URL=import.meta.env.VITE_BACKEND_BASE_URL
     let user = JSON.parse(localStorage.getItem('user'))
     const {order,setOrder}=useContext(OrderContext)
     const navigate=useNavigate()
@@ -17,7 +17,7 @@ const Allorders = () => {
                 Authorization: `Bearer ${user.token}`,
             },
         };
-        const { data } = await axios.get('http://localhost:5000/api/order/all', config)
+        const { data } = await axios.get(`${BASE_URL}/api/order/all`, config)
         setAllOrders(data)
     }
     useEffect(() => {
@@ -39,7 +39,7 @@ const Allorders = () => {
         };
         
         try {
-            const {data}=await axios.get("http://localhost:5000/api/order/admin",config)
+            const {data}=await axios.get(`${BASE_URL}/api/order/admin`,config)
             setOrder(data)
         } catch (error) {
             console.log(error);

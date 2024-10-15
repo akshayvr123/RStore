@@ -9,7 +9,8 @@ const Add = () => {
   let user = JSON.parse(localStorage.getItem('user'))
   const navigate=useNavigate()
   const [option, setOption] = useState()
-  const [categoryNames] = useCategoryNames('http://localhost:5000/api/product/categorynames');
+  const BASE_URL=import.meta.env.VITE_BACKEND_BASE_URL
+  const [categoryNames] = useCategoryNames(`${BASE_URL}/api/product/categorynames`);
   //for  category pic
   const [pics, setPics] = useState('')
   const [productPic, setProductPic] = useState('')
@@ -71,7 +72,7 @@ const Add = () => {
         }
     };
 
-      const {data}=await axios.post('http://localhost:5000/api/product',{
+      const {data}=await axios.post(`${BASE_URL}/api/product`,{
        
           name:categoryDetails.name,
           description:categoryDetails.description,

@@ -21,7 +21,7 @@ const CheckOut = () => {
         pin:1
     })
     const [cart] = useCartItems(`${BASE_URL}/api/cart`, user.token)
-
+    
     const [total,setTotal]=useState()
     const {handlePayment}=useOrder(cart,personalDetails,shippingAdress,total)
     const [checkoutProducts, setCheckoutProducts] = useState()

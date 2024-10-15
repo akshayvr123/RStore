@@ -14,11 +14,11 @@ const SignIn = () => {
     const light = "ml-[-9px] text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700";
     const {setUser}=useContext(UserContext)
     const navigate=useNavigate()
-
+    const BASE_URL=import.meta.env.VITE_BACKEND_BASE_URL
     const handleSubmit=async(e)=>{
         e.preventDefault()
         try {
-            const {data}=await axios.post("http://localhost:5000/api/user/login",{
+            const {data}=await axios.post(`${BASE_URL}/api/user/login`,{
                 key:secret,
                 type:admin ? 'admin':'user',
                 email:email,

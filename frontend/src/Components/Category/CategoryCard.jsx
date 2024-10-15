@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 
 const CategoryCard = () => {
   const [category,setCategoryDetails]=useState([])
-  const [categoryNames] = useCategoryNames('http://localhost:5000/api/product/categorynames');
+  const BASE_URL=import.meta.env.VITE_BACKEND_BASE_URL
+  const [categoryNames] = useCategoryNames(`${BASE_URL}/api/product/categorynames`);
   const navigate=useNavigate()
   useEffect(()=>{
     setCategoryDetails(categoryNames?.categoryNames);

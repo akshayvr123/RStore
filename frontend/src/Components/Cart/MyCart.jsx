@@ -9,11 +9,12 @@ import { useNavigate } from 'react-router-dom';
 
 const MyCart = () => {
     let user = JSON.parse(localStorage.getItem('user'))
-    const [cart] = useCartItems("http://localhost:5000/api/cart", user.token)
+    const BASE_URL=import.meta.env.VITE_BACKEND_BASE_URL
+    const [cart] = useCartItems(`${BASE_URL}/api/cart`, user.token)
     const [total,setTotal]=useState(0)
     const {handlePayment}=useOrder(cart,total)
     const dispatch = useDispatch(cart)
-    const [newcart,remove]=useRemoveItem("http://localhost:5000/api/cart/remove",user.token)
+    const [newcart,remove]=useRemoveItem(`${BASE_URL}/api/cart/remove`,user.token)
     const carts = useSelector((state) => state?.cart)
     const navigate=useNavigate()
     const findTotal = (carts) => {
@@ -65,7 +66,7 @@ const MyCart = () => {
                  Authorization: `Bearer ${user.token}`,
              },
          };
-         const {data}=await axios.put("http://localhost:5000/api/cart/update",{
+         const {data}=await axios.put(`${BASE_URL}/api/cart/update`,{
              name:item.name,
              count:operation==='decrement'?item.count-1:item.count+1,
              baseprice:baseprice

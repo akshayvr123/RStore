@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const AllOrdersOfUser = () => {
     const [allOrdersOfUser, setAllordersOfUser] = useState()
     const {order,setOrder}=useContext(OrderContext)
+    const BASE_URL=import.meta.env.VITE_BACKEND_BASE_URL
     const navigate=useNavigate()
     let user = JSON.parse(localStorage.getItem('user'))
     const fetchOrders = async () => {
@@ -15,7 +16,7 @@ const AllOrdersOfUser = () => {
                 Authorization: `Bearer ${user.token}`,
             },
         };
-        const { data } = await axios.get('http://localhost:5000/api/order', config)
+        const { data } = await axios.get(`${BASE_URL}/api/order`, config)
         setAllordersOfUser(data)
     }
     useEffect(() => {
