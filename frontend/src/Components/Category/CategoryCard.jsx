@@ -18,14 +18,14 @@ const CategoryCard = () => {
   }
 
   return (
-    <div className='catagory-container'>
+    <div className='catagory-container '>
       <h2 className='scrollbar-hide text-3xl pt-7 pl-[3rem] md:pl-[6rem] font-bold'>Category</h2>
-      <div className='item-container'>
+      <div className='item-container '>
 
         {category?.map((cat,index) => {
           return (
-            <div onClick={()=>handleClick(cat)} key={index} className='item'>
-              <img className='w-full h-[210px] rounded-b-sm' src={cat.imageUrl} alt='' />
+            <div onClick={()=>handleClick(cat)} key={index} className='item w-80 sm:w-[428px]'>
+              <img className=' w-full h-[210px] rounded-b-sm' src={cat.imageUrl} alt='' />
               <div className='content'>
                 <p className='normal-txt pl-[.60rem]'>{cat.name}</p>
                 <p className='small-txt'>{cat.description}</p>
