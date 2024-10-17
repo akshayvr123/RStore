@@ -23,7 +23,7 @@
       @apply flex  flex-wrap justify-center items-center md:ml-[6rem] md:justify-start;
   }
   .item{
-    @apply w-[428px]  ml-5 mt-5 border-2 rounded-lg overflow-hidden border-black hover:shadow-red-600 cursor-pointer
+    @apply w-[428px]  ml-2 mt-5 border-2 rounded-lg overflow-hidden border-black hover:shadow-red-600 cursor-pointer
     hover:border-green-600
      lg:w-[428px] sm:w-[390px] sm:h-[300px];
 }

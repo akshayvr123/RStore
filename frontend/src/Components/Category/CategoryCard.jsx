@@ -24,7 +24,7 @@ const CategoryCard = () => {
 
         {category?.map((cat,index) => {
           return (
-            <div onClick={()=>handleClick(cat)} key={index} className='item w-80 sm:w-[428px]'>
+            <div onClick={()=>handleClick(cat)} key={index} className='item w-80 sm:w-[428px] '>
               <img className=' w-full h-[210px] rounded-b-sm' src={cat.imageUrl} alt='' />
               <div className='content'>
                 <p className='normal-txt pl-[.60rem]'>{cat.name}</p>
