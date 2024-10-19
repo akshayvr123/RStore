@@ -19,7 +19,7 @@ const CategoryCard = () => {
 
   return (
     <div className='catagory-container '>
-      <h2 className='scrollbar-hide text-3xl pt-7 pl-[3rem] md:pl-[6rem] font-bold'>Category</h2>
+      <h2 className='scrollbar-hide text-3xl pt-7 pl-[2rem] sm:pl-[3rem] md:pl-[7rem] font-bold'>Category</h2>
       <div className='item-container '>
 
         {category?.map((cat,index) => {

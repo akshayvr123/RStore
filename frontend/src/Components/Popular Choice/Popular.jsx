@@ -8,7 +8,7 @@ const Popular = () => {
  
   return (
     <div className='pt-4 '>
-        <h2 className='scrollbar-hide text-3xl  pl-[3rem] md:pl-[6rem] font-bold'>Deals Of the Day</h2>
+        <h2 className='scrollbar-hide text-3xl pl-[2rem]  sm:pl-[3rem] md:pl-[7rem] font-bold'>Deals Of the Day</h2>
       <div className='flex justify-center items-center mt-10 '>
         <CCarousel controls indicators className='w-11/12 pl-5 md:pl-12  rounded-lg '>
           <CCarouselItem className='h-52 sm:h-72 md:h-96'>
