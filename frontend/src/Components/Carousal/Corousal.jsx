@@ -19,8 +19,8 @@ const images =["https://www.bigbasket.com/media/uploads/banner_images/bb1548_b2c
   }, [source])
   return (
 <div className='corousal-container'>
-  <h1 className='text-3xl pt-7 pl-[2rem] sm:pl-[3rem] md:pl-[7rem] font-bold'>Popular Choice</h1>
-  <div className='flex flex-col items-center justify-center pt-10 h-64 sm:h-96 relative pl-5 md:pl-12 '>
+  <h1 className='text-2xl pt-7 pl-[2rem] sm:pl-[3rem] md:pl-[7rem] font-bold'>Popular Choice</h1>
+  <div className='flex flex-col items-center justify-center pt-6 sm:pt-10 h-64 sm:h-96 relative pl-5 md:pl-12 '>
     <div className='relative w-11/12 h-full border-2 rounded-lg  '>
       <img className='w-full h-full rounded-lg bg-white' src={images[source]} alt="" />
       <div onClick={handleBack} className='absolute left-0 top-1/2 transform -translate-y-1/2 pl-5 cursor-pointer group'>
